@@ -1,15 +1,8 @@
 import './App.css';
+import LandingPage from './pages/LandingPage';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <span className="font-freesentation font-bold text-bjsDeepBlue">
-          프리젠테이션
-        </span>
-      </header>
-    </div>
-  );
+  return <LandingPage />;
 }
 
 export default App;
