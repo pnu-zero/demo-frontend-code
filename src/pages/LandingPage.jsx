@@ -102,7 +102,7 @@ function LandingPage() {
         viewBox="0 0 1920 310"
       >
         <defs>
-          <style>{`.cls-1 { fill: #5f4def; }`}</style>
+          <style>{`.cls-1 { fill: #6297FF; }`}</style>
         </defs>
         <title>header-frame</title>
         <path
