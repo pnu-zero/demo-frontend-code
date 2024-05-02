@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <span className="text-2xl">글꼴</span>
+        <span className="font-freesentation font-bold">프리젠테이션</span>
       </header>
     </div>
   );
