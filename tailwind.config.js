@@ -7,6 +7,13 @@ module.exports = {
         roboto: ['Roboto'],
         freesentation: ['Freesentation'],
       },
+      colors: {
+        bjsBlue: '#00A3FF',
+        bjsDeepBlue: '#0097EC',
+        bhsSky: '#85AFFF',
+        bjsDeepSky: '#6297FF',
+        bjsGray: '#F8F8F8',
+      },
     },
   },
   plugins: [],

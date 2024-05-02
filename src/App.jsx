@@ -4,7 +4,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <span className="font-freesentation font-bold">프리젠테이션</span>
+        <span className="font-freesentation font-bold text-bjsDeepBlue">
+          프리젠테이션
+        </span>
       </header>
     </div>
   );
