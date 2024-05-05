@@ -18,10 +18,15 @@ code {
 
 @font-face {
   font-family: 'Roboto';
-  src: local('./fonts/Roboto-Bold.ttf') format('truetype');
+  src: local('./fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: 'Freesentation';
-  src: local('./fonts/Freesentation-4Regular.ttf') format('truetype');
+  font-family: 'Freesentation-9Black';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-9Black.woff2')
+    format('woff2');
+  font-weight: 900;
+  font-style: normal;
 }

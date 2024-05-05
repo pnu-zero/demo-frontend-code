@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         roboto: ['Roboto'],
-        freesentation: ['Freesentation'],
+        freesentation: ['Freesentation-9Black'],
       },
       colors: {
         bjsBlue: '#00A3FF',
