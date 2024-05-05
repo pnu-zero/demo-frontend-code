@@ -1,8 +1,8 @@
 import './App.css';
-import LandingPage from './pages/LandingPage';
+import Header from './components/layout/Header';
 
 function App() {
-  return <LandingPage />;
+  return <Header />;
 }
 
 export default App;
