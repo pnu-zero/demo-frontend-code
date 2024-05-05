@@ -1,8 +1,29 @@
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import './App.css';
-import Header from './components/layout/Header';
+import LoginPage from './pages/LoginPage';
+import Register from './pages/Register';
+import NonFoundPage from './pages/NonFoundPage';
+import LandingPage from './pages/LandingPage';
+import UserEditPage from './pages/UserEditPage';
+import CommonLayout from './components/layout/CommonLayout';
 
 function App() {
-  return <Header />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* 공통 레이아웃 */}
+        <Route path="/" element={<CommonLayout />}>
+          <Route path="user-edit" element={<UserEditPage />} />
+        </Route>
+        {/* 404 에러 */}
+        <Route path="*" element={<NonFoundPage />} />
+        {/* 단독 레이아웃 */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/landing" element={<LandingPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
