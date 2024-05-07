@@ -1,7 +1,7 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage';
-import Register from './pages/Register';
+import RegisterPage from './pages/RegisterPage';
 import NonFoundPage from './pages/NonFoundPage';
 import LandingPage from './pages/LandingPage';
 import UserEditPage from './pages/UserEditPage';
@@ -19,7 +19,7 @@ function App() {
         <Route path="*" element={<NonFoundPage />} />
         {/* 단독 레이아웃 */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/landing" element={<LandingPage />} />
       </Routes>
     </BrowserRouter>
