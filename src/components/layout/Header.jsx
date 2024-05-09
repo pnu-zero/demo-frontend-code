@@ -2,10 +2,10 @@ import React from 'react';
 
 function Header() {
   return (
-    <header className="min-w-[1280px] h-[100px] bg-bjsDeepSky">
-      <div className="min-w-[1280px] flex h-[100px] items-center justify-center">
+    <header className="min-w-[1280px] h-[60px] bg-bjsDeepSky">
+      <div className="min-w-[1280px] flex h-[60px] items-center justify-center">
         <div className="px-8 mr-2 rounded-xl bg-bjsLightSky inline-block">
-          <span className="font-bold text-white text-3xl">배지시</span>
+          <span className="font-bold text-white text-3xl">PNU cloud</span>
         </div>
         <div className="ml-2">
           <span className="font-bold text-white text-xl">

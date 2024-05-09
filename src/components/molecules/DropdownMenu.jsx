@@ -40,9 +40,7 @@ function DropdownMenu({ theme, menus }) {
                 <div
                   className={`w-[8px] h-[8px] ${colorList[index]} mr-3 ml-1`}
                 />
-                <span className="font-['Freesentation-9Black'] text-md text-black">
-                  {menu}
-                </span>
+                <span className="font-bold text-md text-black">{menu}</span>
               </div>
             </button>
           ))

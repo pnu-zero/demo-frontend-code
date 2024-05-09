@@ -5,11 +5,11 @@ import Navigation from './Navigation';
 
 function CommonLayout() {
   return (
-    <div>
+    <div className="h-full">
       <Header />
-      <div className="flex min-w-[1280px]">
+      <div className="flex w-full h-full">
         <Navigation />
-        <div className="min-w-[1025px] mx-auto bg-bjsGray">
+        <div className="w-full bg-bjsGray">
           <Outlet />
         </div>
       </div>

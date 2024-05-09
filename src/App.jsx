@@ -19,7 +19,7 @@ function App() {
         <Route path="*" element={<NonFoundPage />} />
         {/* 단독 레이아웃 */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/signup" element={<RegisterPage />} />
         <Route path="/landing" element={<LandingPage />} />
       </Routes>
     </BrowserRouter>

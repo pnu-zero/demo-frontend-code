@@ -42,12 +42,14 @@ function LoginPage() {
     <div>
       <Header />
       <main className="flex justify-center">
-        <div className="mt-28">
-          <h1 className="text-7xl text-center text-bjsBlue mr-20">Login</h1>
-          <form className="flex flex-col justify-center items-center mt-16">
+        <div className="mt-36">
+          <h1 className="text-7xl text-center text-bjsBlue font-freesentation">
+            로그인
+          </h1>
+          <form className="flex flex-col justify-center items-center mt-12">
             <input
               type="email"
-              className="w-[261px] h-[36px] mb-2 border-[1px] border-solid border-black"
+              className="w-[261px] h-[36px] mb-2 border-[1px] border-solid border-black px-2 rounded-xl"
               placeholder="아이디(이메일)"
               onChange={(e) => handleChangeForm(e, 'id')}
               autoComplete="off"
@@ -55,7 +57,7 @@ function LoginPage() {
             <div className="relative">
               <input
                 type={`${passwordVisibility ? 'text' : 'password'}`}
-                className="w-[261px] h-[36px] border-[1px] border-solid border-black mb-1"
+                className="w-[261px] h-[36px] border-[1px] border-solid border-black mb-1 px-2 rounded-xl"
                 placeholder="비밀번호"
                 onChange={(e) => handleChangeForm(e, 'password')}
                 autoComplete="off"
@@ -87,7 +89,7 @@ function LoginPage() {
             </div>
             <button
               type="button"
-              className={` text-white font-bold w-[261px] py-2 rounded-lg mb-2 ${errorMessage === '' ? 'bg-bjsBlue' : 'bg-[#A4DEFF]'}`}
+              className={` text-white font-bold w-[261px] py-2 rounded-2xl mb-2 ${errorMessage === '' ? 'bg-bjsBlue' : 'bg-[#A4DEFF]'}`}
               onClick={() => {
                 login(userform, setErrorMessage, navigate);
               }}
@@ -97,9 +99,9 @@ function LoginPage() {
             </button>
             <button
               type="button"
-              className="bg-bjsBlue text-white font-bold w-[261px] py-2 rounded-lg"
+              className="bg-bjsBlue text-white font-bold w-[261px] py-2 rounded-2xl"
               onClick={() => {
-                navigate('/register');
+                navigate('/signup');
               }}
             >
               회원가입
