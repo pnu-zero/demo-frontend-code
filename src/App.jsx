@@ -6,6 +6,8 @@ import NonFoundPage from './pages/NonFoundPage';
 import LandingPage from './pages/LandingPage';
 import UserEditPage from './pages/UserEditPage';
 import CommonLayout from './components/layout/CommonLayout';
+import Main from './pages/Main';
+import ClassPage from './pages/ClassPage';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         {/* 공통 레이아웃 */}
         <Route path="/" element={<CommonLayout />}>
           <Route path="user-edit" element={<UserEditPage />} />
+          <Route path="main" element={<Main />} />
+          <Route path="class" element={<ClassPage />} />
         </Route>
         {/* 404 에러 */}
         <Route path="*" element={<NonFoundPage />} />
