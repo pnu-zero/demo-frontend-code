@@ -389,14 +389,11 @@ select::-ms-expand {
   transition: all 0.2s;
 }
 
-.form-control-input:focus,
 .form-control-select:focus,
 .form-control-textarea:focus {
-  border: 1px solid #a1a1a1;
   outline: none; /* Removes blue border on focus */
 }
 
-.form-control-input:hover,
 .form-control-select:hover,
 .form-control-textarea:hover {
   border: 1px solid #a1a1a1;

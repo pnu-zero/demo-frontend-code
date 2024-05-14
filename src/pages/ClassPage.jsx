@@ -43,17 +43,22 @@ function ClassPage() {
           </div>
         </div>
       </div>
-      <div className=" ml-24 mt-12">
+      <div className=" ml-24 mt-16">
         <div className="relative">
-          <AiOutlineSearch
-            className="absolute top-2 left-2 text-[#B3B3B3]"
-            size="20px"
-          />
-          <input
-            type="text"
-            className="w-[261px] h-[36px] leading-[36px] mb-4 border-[1px] border-solid border-black pr-2 pl-8 rounded-xl"
-            placeholder="검색"
-          />
+          <div className="relative inline-block ml-[610px] mb-2">
+            <input
+              type="text"
+              className="w-[290px] h-[36px] leading-[36px] border-[2.5px] border-solid border-bjsBlue pr-2 pl-8 rounded-xl focus-visible:outline-0"
+              placeholder="학번, 이름, 프로젝트 명"
+            />
+            <button
+              className="absolute bg-bjsBlue text-lg p-1 pl-3 text-white right-0 rounded-r-xl "
+              type="button"
+              aria-label="검색"
+            >
+              <AiOutlineSearch size="28px" className="mr-2" />
+            </button>
+          </div>
         </div>
 
         <ProjectCard />
