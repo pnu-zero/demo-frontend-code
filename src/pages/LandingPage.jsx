@@ -5,7 +5,7 @@ import headerSoftwareApp from './images/header-software-app.png';
 
 function LandingPage() {
   return (
-    <div>
+    <div className="h-lvh bg-white">
       <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div className="container">
           {/* <!-- Text Logo - Use this if you don't have a graphic logo --> */}
