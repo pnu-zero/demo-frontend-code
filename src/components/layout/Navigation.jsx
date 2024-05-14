@@ -12,7 +12,7 @@ function Navigation() {
     '2024-01-인웹기-003',
   ];
   return (
-    <nav className="min-w-[255px] bg-white">
+    <nav className="min-w-[255px] min-h-[100vh] bg-white">
       <div className="flex justify-center pt-20 pb-8">
         <div className="mr-2">
           <span className="font-bold text-xl text-black">김선우</span>
