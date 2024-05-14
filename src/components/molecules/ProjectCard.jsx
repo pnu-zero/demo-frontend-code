@@ -3,8 +3,8 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 
 function ProjectCard() {
   return (
-    <button type="button" className="block w-[900px] h-[78px] my-2 mx-auto">
-      <div className="w-[900px] flex justify-between items-center bg-bjsGray p-2 rounded-xl text-black shadow-md">
+    <button type="button" className="block w-[900px] h-[78px] my-2">
+      <div className="w-[900px] flex justify-between items-center bg-white p-2 rounded-xl text-black shadow-md">
         <div className="w-[200px]">
           <div className="text-[#3973E4] font-bold text-lg">
             날씨 정보 알림 서비스

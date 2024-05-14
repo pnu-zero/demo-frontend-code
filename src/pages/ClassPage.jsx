@@ -1,8 +1,17 @@
-import React from 'react';
+import { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import ReactDatePicker from 'react-datepicker';
+import { ko } from 'date-fns/locale/ko';
 import ProjectCard from '../components/molecules/ProjectCard';
+import ExampleCustomInput from '../components/molecules/ExampleCustomInput';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function ClassPage() {
+  const [startDate, setStartDate] = useState(new Date());
+
+  const handleColor = (time) =>
+    time.getHours() > 12 ? 'text-success' : 'text-error';
+
   return (
     <div className="text-black">
       <div className="flex mt-12 items-center">
@@ -26,21 +35,50 @@ function ClassPage() {
         </div>
 
         <div className="ml-36">
-          <button
-            type="button"
-            className="block text-white font-bold text-lg w-[150px] px-2 py-1 rounded-2xl bg-bjsBlue"
-          >
-            권한 설정
-          </button>
-          <button
-            type="button"
-            className=" block text-white font-bold text-lg w-[150px] px-2 py-1 rounded-2xl mt-6 bg-bjsBlue"
-          >
-            마감시간 설정
-          </button>
+          <div className="mb-2">
+            <div
+              type="button"
+              className="block text-center text-white font-bold text-lg w-[150px] px-2 py-1 rounded-2xl  bg-bjsBlue"
+            >
+              권한 설정
+            </div>
+            <div className="flex mt-2">
+              <div className="ml-1 mr-4">
+                <input
+                  type="radio"
+                  name="permission"
+                  id="private"
+                  value="public"
+                  checked
+                />
+                <label htmlFor="public">PUBLIC</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="permission"
+                  id="private"
+                  value="public"
+                  checked
+                />
+                <label htmlFor="private">PRIVATE</label>
+              </div>
+            </div>
+          </div>
+          <ReactDatePicker
+            showTimeSelect
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            onCalendarClose={() => {
+              // api연결
+            }}
+            timeClassName={handleColor}
+            customInput={<ExampleCustomInput />}
+            locale={ko}
+          />
         </div>
       </div>
-      <div className=" ml-24 mt-24">
+      <div className=" ml-24 mt-12">
         <div className="relative">
           <AiOutlineSearch
             className="absolute top-2 left-2 text-[#B3B3B3]"
@@ -53,17 +91,15 @@ function ClassPage() {
           />
         </div>
 
-        <div className="w-[1000px] h-[400px] py-2 rounded-xl bg-white overflow-y-auto">
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-        </div>
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
       </div>
     </div>
   );
