@@ -10,7 +10,7 @@ function LandingPage() {
         <div className="container">
           {/* <!-- Text Logo - Use this if you don't have a graphic logo --> */}
           <a className="navbar-brand logo-text page-scroll" href="/">
-            배포지원시스템
+            PNUcloud
           </a>
 
           {/* <!-- Mobile Menu Toggle Button --> */}

@@ -1,37 +1,28 @@
-import { loginInstance } from './instance';
+import instance from './instance';
 
-const login = (userform, setErrorMessage, navigate) => {
-  loginInstance
-    .post('/api/login', {
-      userPhoneNumber: userform.id,
-      password: userform.password,
-    })
+const getuserInfo = (setUserInfo, navigate) => {
+  instance
+    .get('/api/user')
     .then((response) => {
-      localStorage.setItem('name', response.name);
-      localStorage.setItem('userRole', response.user_role);
-      navigate('/main');
+      setUserInfo({
+        id: response.id,
+        password: '',
+        name: response.name,
+        pId: response.student_id,
+      });
     })
     .catch((error) => {
       if (error.response) {
         // 요청이 전송되었고, 서버는 2xx 외의 상태 코드로 응답했습니다.
         const errorStatus = Number(error.response.status);
-        const { errorCode } = error.response.data;
         if (errorStatus >= 400 && errorStatus < 500) {
           // 클라이언트 요청 오류
           if (errorStatus === 404) {
-            navigate('nonfound-pageserver');
             setTimeout(() => {
               alert('메인 페이지로 이동합니다');
               navigate('/landing');
             }, 3000);
             // 404 페이지로 이동
-          }
-          if (errorCode === '-003') {
-            setErrorMessage('비밀번호가 틀렸습니다');
-          } else if (errorCode === '-006') {
-            setErrorMessage('없는 아이디 입니다.');
-          } else if (errorCode === '-101') {
-            setErrorMessage('입력 형식이 잘못 됐습니다.');
           }
         } else if (errorStatus >= 500) {
           setTimeout(() => {
@@ -54,4 +45,4 @@ const login = (userform, setErrorMessage, navigate) => {
     });
 };
 
-export default login;
+export default getuserInfo;

@@ -1,22 +1,31 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DropdownInput from '../components/molecules/DropdownInput';
 import { passwordValidation, idValidation } from '../util/loginValidation';
+import getGroupList from '../api/group';
 
 function UserEditPage() {
-  const inputList = ['인웹기-001분반', '인웹기-002분반', '인웹기-003분반'];
+  const navigate = useNavigate();
+  const [grouplist, setGrouplist] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [singupForm, setSignupForm] = useState({
     id: '',
     password: '',
     name: '',
     pId: '',
-    classNumber: '',
   });
   const [errorMessage, setErrorMessage] = useState({
     email: '',
     password: '',
     passwordCheck: '',
   });
+
+  useEffect(() => {
+    getGroupList(setGrouplist, navigate);
+    // getGroupList api를 통해서 그룹 리스트를 받아 온 후에, getuserForm을 통해 user정보도 받아오고
+    // 이에 맞게 setSelectedIndex, setSignupForm을 초기화하자
+    // async, await문 활용
+  }, []);
 
   useEffect(() => {
     setErrorMessage((prev) => ({
@@ -49,7 +58,7 @@ function UserEditPage() {
   useEffect(() => {
     setSignupForm((prev) => ({
       ...prev,
-      classNumber: inputList[selectedIndex],
+      classNumber: grouplist[selectedIndex],
     }));
   }, [selectedIndex]);
 
@@ -184,7 +193,7 @@ function UserEditPage() {
                   분반 선택
                 </div>
                 <DropdownInput
-                  inputList={inputList}
+                  inputList={grouplist}
                   selectedIndex={selectedIndex}
                   setSelectedIndex={setSelectedIndex}
                 />

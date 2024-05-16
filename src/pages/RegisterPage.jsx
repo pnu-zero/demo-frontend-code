@@ -1,23 +1,30 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import DropdownInput from '../components/molecules/DropdownInput';
 import { passwordValidation, idValidation } from '../util/loginValidation';
+import signup from '../api/singup';
+import getGroupList from '../api/group';
 
 function RegisterPage() {
-  const inputList = ['인웹기-001분반', '인웹기-002분반', '인웹기-003분반'];
+  const navigate = useNavigate();
+  const [grouplist, setGrouplist] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [singupForm, setSignupForm] = useState({
     id: '',
     password: '',
     name: '',
     pId: '',
-    classNumber: '',
   });
   const [errorMessage, setErrorMessage] = useState({
     email: '',
     password: '',
     passwordCheck: '',
   });
+
+  useEffect(() => {
+    getGroupList(setGrouplist, navigate);
+  }, []);
 
   useEffect(() => {
     setErrorMessage((prev) => ({
@@ -50,7 +57,7 @@ function RegisterPage() {
   useEffect(() => {
     setSignupForm((prev) => ({
       ...prev,
-      classNumber: inputList[selectedIndex],
+      classNumber: grouplist[selectedIndex],
     }));
   }, [selectedIndex]);
 
@@ -96,6 +103,17 @@ function RegisterPage() {
     )
       return false;
     return true;
+  }
+
+  function handleClickSingupButton() {
+    signup(
+      singupForm.id,
+      singupForm.pId,
+      singupForm.name,
+      singupForm.password,
+      grouplist[selectedIndex],
+      navigate,
+    );
   }
 
   return (
@@ -186,7 +204,7 @@ function RegisterPage() {
                   분반 선택
                 </div>
                 <DropdownInput
-                  inputList={inputList}
+                  inputList={grouplist}
                   selectedIndex={selectedIndex}
                   setSelectedIndex={setSelectedIndex}
                 />
@@ -197,6 +215,9 @@ function RegisterPage() {
               type="button"
               className={` text-white font-bold w-[261px] py-2 rounded-2xl mt-12 ${testCanSignup() ? 'bg-bjsLightSky' : 'bg-bjsBlue'}`}
               disabled={testCanSignup()}
+              onClick={() => {
+                handleClickSingupButton();
+              }}
             >
               회원가입 완료
             </button>

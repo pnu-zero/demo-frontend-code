@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { AiFillFile } from 'react-icons/ai';
 
-function ClientFileUpload() {
+function ClientFileUpload(setFiles) {
   const clientFileRef = useRef();
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [file, setFile] = useState();
@@ -12,9 +12,11 @@ function ClientFileUpload() {
       // 파일 보내기 성공하면 상태 값 변경
       setIsFileUploaded(true);
       setFile(curFile);
+      setFiles((prev) => ({
+        ...prev,
+        staticFile: curFile,
+      }));
       // 파일 보내기
-      const formData = new FormData();
-      formData.append('file', curFile);
       setIsFileUploaded(true);
     }
   };
@@ -39,7 +41,10 @@ function ClientFileUpload() {
                   onClick={() => {
                     setIsFileUploaded(false);
                     // 파일 삭제 api 요청
-                    // 성공 시 false로 수정
+                    setFiles((prev) => ({
+                      ...prev,
+                      staticFile: '',
+                    }));
                   }}
                 >
                   삭제
