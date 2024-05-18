@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { useParams } from 'react-router-dom';
 import ProjectCard from '../components/molecules/ProjectCard';
 import 'react-datepicker/dist/react-datepicker.css';
 import ClassPermissionModal from '../components/modals/ClassPermissionModal';
+import { getPorjectListByGroup } from '../api/project';
 
 function ClassPage() {
   const [modalOpen, setModalOpen] = useState(false);
+  const { id } = useParams();
+
+  useEffect(() => {
+    getPorjectListByGroup(id);
+  }, []);
+
   return (
     <div className="text-black">
       <ClassPermissionModal modalOpen={modalOpen} setModalOpen={setModalOpen} />

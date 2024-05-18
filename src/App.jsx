@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<CommonLayout />}>
           <Route path="user-edit" element={<UserEditPage />} />
           <Route path="main" element={<Main />} />
-          <Route path="class" element={<ClassPage />} />
+          <Route path="group/:id" element={<ClassPage />} />
         </Route>
         {/* 404 에러 */}
         <Route path="*" element={<NonFoundPage />} />

@@ -1,21 +1,29 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { BsGear } from 'react-icons/bs';
 import { AiOutlineExport } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../../api/login';
 import DropdownMenu from '../molecules/DropdownMenu';
+import { getMyGroupList } from '../../api/group';
 
 function Navigation() {
   const navigate = useNavigate();
-  const menus = [
-    '2024-01-인웹기-001',
-    '2024-01-인웹기-002',
-    '2024-01-인웹기-003',
-  ];
+  const [grouplist, setGrouplist] = useState([]);
+
+  useEffect(() => {
+    getMyGroupList(setGrouplist, navigate);
+  }, []);
+
+  const handleLogoutButton = () => {
+    logout(navigate);
+  };
   return (
     <nav className="min-w-[255px] min-h-[100vh] bg-white">
       <div className="flex justify-center pt-20 pb-8">
         <div className="mr-2">
-          <span className="font-bold text-xl text-black">김선우</span>
+          <span className="font-bold text-xl text-black">
+            {localStorage.getItem('name')}
+          </span>
         </div>
         <button
           type="button"
@@ -31,8 +39,7 @@ function Navigation() {
         <button
           type="button"
           onClick={() => {
-            navigate('/landing');
-            window.location.reload();
+            handleLogoutButton(navigate);
           }}
         >
           <div className="flex items-center">
@@ -42,7 +49,7 @@ function Navigation() {
         </button>
       </div>
       <div>
-        <DropdownMenu theme="과제 프로젝트" menus={menus} />
+        <DropdownMenu theme="과제 프로젝트" menus={grouplist} />
       </div>
     </nav>
   );

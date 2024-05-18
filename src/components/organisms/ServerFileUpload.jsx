@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { AiFillFile } from 'react-icons/ai';
 
-function ServerFileUpload(setFiles) {
+function ServerFileUpload({ setFiles }) {
   const serverFileRef = useRef();
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [file, setFile] = useState();

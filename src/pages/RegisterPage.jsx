@@ -111,13 +111,14 @@ function RegisterPage() {
       singupForm.pId,
       singupForm.name,
       singupForm.password,
-      grouplist[selectedIndex],
+      grouplist[selectedIndex].id,
       navigate,
     );
   }
 
+  console.log(grouplist);
   return (
-    <div>
+    <div className="text-black">
       <Header />
       <main className="flex justify-center">
         <div className="mt-28">

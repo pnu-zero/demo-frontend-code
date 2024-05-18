@@ -10,6 +10,11 @@ function DropdownMenu({ theme, menus }) {
     'bg-[#8DBBFF]',
     'bg-[#FF8DBD]',
     'bg-[#F6FF8D]',
+    'bg-[#D48DFF]',
+    'bg-[#8DFFD6]',
+    'bg-[#8DBBFF]',
+    'bg-[#FF8DBD]',
+    'bg-[#F6FF8D]',
   ];
 
   return (
@@ -29,7 +34,7 @@ function DropdownMenu({ theme, menus }) {
             <button
               className="w-full"
               type="button"
-              key={menu}
+              key={menu.id}
               onClick={() => {
                 setClickedIndex(index);
               }}
@@ -40,7 +45,9 @@ function DropdownMenu({ theme, menus }) {
                 <div
                   className={`w-[8px] h-[8px] ${colorList[index]} mr-3 ml-1`}
                 />
-                <span className="font-bold text-md text-black">{menu}</span>
+                <span className="font-bold text-md text-black">
+                  {menu.class_name} {menu.class_num}
+                </span>
               </div>
             </button>
           ))

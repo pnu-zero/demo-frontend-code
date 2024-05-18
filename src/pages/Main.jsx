@@ -12,7 +12,7 @@ function Main() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center mt-24">
+    <div className="flex flex-col items-center mx-auto mt-24 min-w-[800px]">
       <div className="flex flex-col justify-center items-start w-[786px]">
         <div className="flex">
           <div className="pr-8">
@@ -70,7 +70,7 @@ function Main() {
               <br />
               (NODE.JS)
             </div>
-            <ServerFileUpload />
+            <ServerFileUpload setFiles={setFiles} />
           </div>
         </div>
       </div>
@@ -94,10 +94,15 @@ function Main() {
             group_id: localStorage.getItem('group_id'),
             title: titleRef.current.value,
             desc: descRef.current.value,
-            sub_domain: '',
+            sub_domain: 'cori',
           };
           const formdata = new FormData();
-          formdata.append('projectDto', projectForm);
+          formdata.append(
+            'projectDto',
+            new Blob([JSON.stringify(projectForm)], {
+              type: 'application/json',
+            }),
+          );
           formdata.append('staticFile', files.staticFile);
           formdata.append('dynamicFile', files.dynamicFile);
           handleSaveProject(formdata);

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { AiFillFile } from 'react-icons/ai';
 
-function ClientFileUpload(setFiles) {
+function ClientFileUpload({ setFiles }) {
   const clientFileRef = useRef();
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [file, setFile] = useState();
@@ -12,10 +12,9 @@ function ClientFileUpload(setFiles) {
       // 파일 보내기 성공하면 상태 값 변경
       setIsFileUploaded(true);
       setFile(curFile);
-      setFiles((prev) => ({
-        ...prev,
+      setFiles({
         staticFile: curFile,
-      }));
+      });
       // 파일 보내기
       setIsFileUploaded(true);
     }
