@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { BsFillCaretDownFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 function DropdownMenu({ theme, menus }) {
   const [isOpen, setisOpen] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(0);
+  const navigate = useNavigate();
   const colorList = [
     'bg-[#D48DFF]',
     'bg-[#8DFFD6]',
@@ -37,6 +39,7 @@ function DropdownMenu({ theme, menus }) {
               key={menu.id}
               onClick={() => {
                 setClickedIndex(index);
+                navigate(`/group/${menu.id}`);
               }}
             >
               <div

@@ -15,13 +15,55 @@ const handleSaveProject = (formdata) => {
     });
 };
 
-export const getPorjectListByGroup = (id) => {
+export const getMyProject = () => {
   instance
-    .get(`/api/project/find_by_group?id=${id}`)
-    .then((response) => {
-      console.log(response.data);
-    })
+    .get('/api/project/find_by_user')
+    .then(() => {})
     .catch(() => {});
+};
+
+export const getProjectListByGroup = (setProjectDatas, id, navigate) => {
+  instance
+    .get('/api/group/find_by_user')
+    .then((groupResponse) => {
+      const { data } = groupResponse;
+      const currentDate = new Date();
+      const deadlineDate = new Date(data[0].deadline);
+      const role = localStorage.getItem('userRole');
+
+      if (role === 'Admin') {
+        console.log('교수님!!');
+        instance
+          .get(`/api/project/find_by_group?id=${id}`)
+          .then((projectResponse) => {
+            setProjectDatas(() => projectResponse.data);
+          })
+          .catch(() => {
+            console.log('프로젝트 리스트 받아오는데 실패');
+          });
+      } else if (role === 'User') {
+        // 현재 시간이 마감 시간 이후인지 확인
+        if (currentDate > deadlineDate) {
+          console.log('현재 시간은 마감 시간 이후입니다.');
+          instance
+            .get(`/api/project/find_by_group?group_id=${id}`)
+            .then((projectResponse) => {
+              setProjectDatas(() => projectResponse.data);
+            })
+            .catch((error) => {
+              console.log('프로젝트 리스트 받아오는데 실패');
+              alert(error.response.data.message);
+            });
+        } else {
+          navigate('/main');
+          console.log('현재 시간은 마감 시간 이전입니다.');
+          alert('현재 시간은 마감 시간 이전입니다.');
+        }
+      }
+    })
+    .catch(() => {
+      console.log('그룹 마감시간 받아오는데 실패');
+    });
 };
 
 export default handleSaveProject;

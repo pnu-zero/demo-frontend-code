@@ -5,6 +5,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
 const instance = axios.create({
   baseURL: backendUrl,
   timeout: 3000,
+  withCredentials: true, // http-only 쿠키를 받기 위해
 });
 
 export const loginInstance = axios.create({

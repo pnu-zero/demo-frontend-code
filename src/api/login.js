@@ -1,6 +1,7 @@
 import instance, { loginInstance } from './instance';
 
 const login = (userform, setErrorMessage, navigate) => {
+  console.log('로그인 드가자!');
   loginInstance
     .post('/api/user/login', {
       email: userform.id,

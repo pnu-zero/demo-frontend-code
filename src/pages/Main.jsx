@@ -6,6 +6,7 @@ import handleSaveProject from '../api/project';
 function Main() {
   const titleRef = useRef();
   const descRef = useRef();
+  const urlRef = useRef();
   const [files, setFiles] = useState({
     staticFile: '',
     dynamicFile: '',
@@ -34,8 +35,14 @@ function Main() {
               </div>
               <input
                 type="text"
-                className="w-[290px] h-[36px] border-[1.1px] border-solid border-black px-2 rounded-xl"
+                className="w-[200px] h-[36px] border-[1.1px] border-solid border-black px-2 rounded-xl"
                 placeholder="url"
+                ref={urlRef}
+              />
+              <input
+                type="text"
+                className="w-[90px] h-[36px] border-[1.1px] border-solid border-black px-2 rounded-xl font-bold "
+                value=".pnu.app"
                 disabled
               />
             </div>
@@ -81,6 +88,9 @@ function Main() {
         type="button"
         className="text-white font-bold w-[110px] py-1 rounded-2xl mt-12 bg-bjsBlue"
         onClick={() => {
+          if (urlRef.current.value === '') {
+            alert('url은 빈칸일 수 없습니다.');
+          }
           if (titleRef.current.value === '' || descRef.current.value === '') {
             alert('제목과 설명은 빈칸일 수 없습니다.');
             return;
@@ -90,11 +100,9 @@ function Main() {
             return;
           }
           const projectForm = {
-            user_id: localStorage.getItem('user_id'),
-            group_id: localStorage.getItem('group_id'),
             title: titleRef.current.value,
             desc: descRef.current.value,
-            sub_domain: 'cori',
+            sub_domain: urlRef.current.value,
           };
           const formdata = new FormData();
           formdata.append(

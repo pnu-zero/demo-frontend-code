@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProjectCard from '../components/molecules/ProjectCard';
 import 'react-datepicker/dist/react-datepicker.css';
 import ClassPermissionModal from '../components/modals/ClassPermissionModal';
-import { getPorjectListByGroup } from '../api/project';
+import { getProjectListByGroup } from '../api/project';
 
 function ClassPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [projectDatas, setProjectDatas] = useState([]);
 
   useEffect(() => {
-    getPorjectListByGroup(id);
+    getProjectListByGroup(setProjectDatas, id, navigate);
   }, []);
 
   return (
@@ -68,16 +70,11 @@ function ClassPage() {
             </button>
           </div>
         </div>
-
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
+        {projectDatas.map((projectData) => (
+          <div key={projectData.id}>
+            <ProjectCard projectData={projectData} />
+          </div>
+        ))}
       </div>
     </div>
   );
