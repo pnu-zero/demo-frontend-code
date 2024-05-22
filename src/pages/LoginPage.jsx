@@ -4,12 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import login from '../api/login';
 import { idValidation, passwordValidation } from '../util/loginValidation';
+import { isLogin } from '../api/user';
 
 function LoginPage() {
   const navigate = useNavigate();
 
   const [userform, setUserform] = useState({ id: '', password: '' });
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    isLogin(navigate);
+  }, []);
 
   useEffect(() => {
     const { id, password } = userform;

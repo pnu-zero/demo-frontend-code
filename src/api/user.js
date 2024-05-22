@@ -45,4 +45,10 @@ const getuserInfo = (setUserInfo, navigate) => {
     });
 };
 
+export const isLogin = (navigate) => {
+  instance.get('/api/user').then(() => {
+    navigate('/main');
+  });
+};
+
 export default getuserInfo;
