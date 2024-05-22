@@ -1,16 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './css/bootstrap.css';
 import './css/styles.css';
-import { useNavigate } from 'react-router-dom';
 import headerSoftwareApp from './images/header-software-app.png';
-import { isLogin } from '../api/user';
 
 function LandingPage() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    isLogin(navigate);
-  }, []);
   return (
     <div className="h-lvh bg-white">
       <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">

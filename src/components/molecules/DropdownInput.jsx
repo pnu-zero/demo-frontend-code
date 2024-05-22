@@ -3,7 +3,7 @@ import { GoTriangleDown } from 'react-icons/go';
 
 function DropdownInput({ inputList, selectedIndex, setSelectedIndex }) {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(inputList);
+
   return (
     <div>
       <div className="relative">
@@ -28,7 +28,7 @@ function DropdownInput({ inputList, selectedIndex, setSelectedIndex }) {
               if (selectedIndex !== index)
                 return (
                   <button
-                    key={inputValue.key}
+                    key={inputValue.id}
                     className="block py-2 hover:bg-bjsGray w-full"
                     type="button"
                     onClick={() => {
@@ -37,7 +37,7 @@ function DropdownInput({ inputList, selectedIndex, setSelectedIndex }) {
                     }}
                   >
                     <div className="text-left">
-                      {inputValue.class_name} {inputList.class_num}
+                      {inputValue.class_name} {inputValue.class_num}
                     </div>
                   </button>
                 );

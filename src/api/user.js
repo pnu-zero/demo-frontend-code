@@ -1,19 +1,21 @@
 import instance from './instance';
 
-const getuserInfo = (setUserInfo, setGrouplist, navigate) => {
+const getuserInfo = (setUserInfo, setGrouplist, setSelectedIndex, navigate) => {
   instance
     .get('/api/group')
     .then((groupResponse) => {
       instance
         .get('/api/user')
         .then((userResponse) => {
+          console.log(userResponse.data.student_id);
           setUserInfo({
-            id: userResponse.id,
+            id: userResponse.data.email,
             password: '',
-            name: userResponse.name,
-            pId: userResponse.student_id,
+            name: userResponse.data.name,
+            pId: userResponse.data.student_id,
           });
           setGrouplist(groupResponse.data);
+          setSelectedIndex(userResponse.data.group_id - 1);
         })
         .catch((error) => {
           if (error.response) {

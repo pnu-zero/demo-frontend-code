@@ -54,13 +54,6 @@ function RegisterPage() {
     }
   }
 
-  useEffect(() => {
-    setSignupForm((prev) => ({
-      ...prev,
-      classNumber: grouplist[selectedIndex],
-    }));
-  }, [selectedIndex]);
-
   const handleChangeForm = (e, type) => {
     if (type === 'id') {
       setSignupForm((prev) => ({
@@ -116,7 +109,6 @@ function RegisterPage() {
     );
   }
 
-  console.log(grouplist);
   return (
     <div className="text-black">
       <Header />

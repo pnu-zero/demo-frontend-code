@@ -19,11 +19,10 @@ function UserEditPage() {
     password: '',
     passwordCheck: '',
   });
-
-  console.log(signupForm);
+  console.log(grouplist);
 
   useEffect(() => {
-    getuserInfo(setSignupForm, setGrouplist, navigate);
+    getuserInfo(setSignupForm, setGrouplist, setSelectedIndex, navigate);
     // getGroupList api를 통해서 그룹 리스트를 받아 온 후에, getuserForm을 통해 user정보도 받아오고
     // 이에 맞게 setSelectedIndex, setSignupForm을 초기화하자
     // async, await문 활용
@@ -56,13 +55,6 @@ function UserEditPage() {
       }));
     }
   }
-
-  useEffect(() => {
-    setSignupForm((prev) => ({
-      ...prev,
-      classNumber: grouplist[selectedIndex],
-    }));
-  }, [selectedIndex]);
 
   const handleChangeForm = (e, type) => {
     if (type === 'id') {
@@ -129,6 +121,7 @@ function UserEditPage() {
                     onChange={(e) => {
                       handleChangeForm(e, 'id');
                     }}
+                    value={signupForm.id}
                   />
                   <div className="w-[261px] absolute bottom-0 text-center text-md text-red-500">
                     {errorMessage.email}
@@ -179,6 +172,7 @@ function UserEditPage() {
                   onChange={(e) => {
                     handleChangeForm(e, 'name');
                   }}
+                  value={signupForm.name}
                 />
                 <div className="w-[261px] font-bold text-lg text-left mb-2 text-black">
                   학번
@@ -190,6 +184,7 @@ function UserEditPage() {
                   onChange={(e) => {
                     handleChangeForm(e, 'pId');
                   }}
+                  value={signupForm.pId}
                 />
                 <div className="w-[261px] font-bold text-lg text-left mb-2 text-black">
                   분반 선택
@@ -205,7 +200,7 @@ function UserEditPage() {
             <button
               type="button"
               className={` text-white font-bold w-[261px] py-2 rounded-2xl mt-12 ${testCanSignup() ? 'bg-bjsLightSky' : 'bg-bjsBlue'}`}
-              disabled={testCanSignup()}
+              disabled
             >
               내 정보 저장
             </button>
