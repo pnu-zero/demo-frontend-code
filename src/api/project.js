@@ -52,7 +52,7 @@ export const getProjectListByGroup = (
           });
       } else if (role === 'User') {
         // 현재 시간이 마감 시간 이후인지 확인
-        if (currentDate > deadlineDate) {
+        if (currentDate < deadlineDate) {
           console.log('현재 시간은 마감 시간 이후입니다.');
           instance
             .get(`/api/project/find_by_group?group_id=${id}`)
