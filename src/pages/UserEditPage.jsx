@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DropdownInput from '../components/molecules/DropdownInput';
 import { passwordValidation, idValidation } from '../util/loginValidation';
-import getGroupList from '../api/group';
+import getuserInfo from '../api/user';
 
 function UserEditPage() {
   const navigate = useNavigate();
   const [grouplist, setGrouplist] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [singupForm, setSignupForm] = useState({
+  const [signupForm, setSignupForm] = useState({
     id: '',
     password: '',
     name: '',
@@ -20,8 +20,10 @@ function UserEditPage() {
     passwordCheck: '',
   });
 
+  console.log(signupForm);
+
   useEffect(() => {
-    getGroupList(setGrouplist, navigate);
+    getuserInfo(setSignupForm, setGrouplist, navigate);
     // getGroupList api를 통해서 그룹 리스트를 받아 온 후에, getuserForm을 통해 user정보도 받아오고
     // 이에 맞게 setSelectedIndex, setSignupForm을 초기화하자
     // async, await문 활용
@@ -30,19 +32,19 @@ function UserEditPage() {
   useEffect(() => {
     setErrorMessage((prev) => ({
       ...prev,
-      email: idValidation(singupForm.id),
+      email: idValidation(signupForm.id),
     }));
-  }, [singupForm.id]);
+  }, [signupForm.id]);
 
   useEffect(() => {
     setErrorMessage((prev) => ({
       ...prev,
-      password: passwordValidation(singupForm.password),
+      password: passwordValidation(signupForm.password),
     }));
-  }, [singupForm.password]);
+  }, [signupForm.password]);
 
   function passwordCheck(e) {
-    if (e.target.value !== singupForm.password) {
+    if (e.target.value !== signupForm.password) {
       setErrorMessage((prev) => ({
         ...prev,
         passwordCheck: '비밀번호가 다릅니다.',
@@ -94,10 +96,10 @@ function UserEditPage() {
 
   function testCanSignup() {
     if (
-      singupForm.id !== '' &&
-      singupForm.password !== '' &&
-      singupForm.name !== '' &&
-      singupForm.pId !== '' &&
+      signupForm.id !== '' &&
+      signupForm.password !== '' &&
+      signupForm.name !== '' &&
+      signupForm.pId !== '' &&
       errorMessage.email === '' &&
       errorMessage.password === '' &&
       errorMessage.passwordCheck === ''

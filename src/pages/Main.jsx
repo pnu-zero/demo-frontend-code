@@ -49,7 +49,7 @@ function Main() {
               />
               <input
                 type="text"
-                className="w-[90px] h-[36px] border-[1.1px] border-solid border-black px-2 rounded-xl font-bold "
+                className="w-[90px] h-[36px]  px-1 rounded-xl font-bold "
                 value=".pnu.app"
                 disabled
               />
