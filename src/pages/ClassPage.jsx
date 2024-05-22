@@ -11,14 +11,29 @@ function ClassPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [projectDatas, setProjectDatas] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [groupAuthority, setGroupAuthority] = useState('false');
 
   useEffect(() => {
-    getProjectListByGroup(setProjectDatas, id, navigate);
+    getProjectListByGroup(
+      setProjectDatas,
+      id,
+      navigate,
+      setStartDate,
+      setGroupAuthority,
+    );
   }, []);
 
   return (
     <div className="text-black">
-      <ClassPermissionModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <ClassPermissionModal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        groupAuthority={groupAuthority}
+        setGroupAuthority={setGroupAuthority}
+      />
       <div className="flex mt-12 items-center">
         <div className="flex w-[700px] ml-24 justify-between">
           <div className="w-[120px] text-center">

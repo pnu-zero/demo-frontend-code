@@ -22,13 +22,20 @@ export const getMyProject = () => {
     .catch(() => {});
 };
 
-export const getProjectListByGroup = (setProjectDatas, id, navigate) => {
+export const getProjectListByGroup = (
+  setProjectDatas,
+  id,
+  navigate,
+  setStartDate,
+  setGroupAuthority,
+) => {
   instance
     .get('/api/group/find_by_user')
     .then((groupResponse) => {
       const { data } = groupResponse;
       const currentDate = new Date();
       const deadlineDate = new Date(data[0].deadline);
+      const groupAuthority = data[0].authority;
       const role = localStorage.getItem('userRole');
 
       if (role === 'Admin') {
@@ -37,6 +44,8 @@ export const getProjectListByGroup = (setProjectDatas, id, navigate) => {
           .get(`/api/project/find_by_group?id=${id}`)
           .then((projectResponse) => {
             setProjectDatas(() => projectResponse.data);
+            setStartDate(deadlineDate);
+            setGroupAuthority(groupAuthority);
           })
           .catch(() => {
             console.log('프로젝트 리스트 받아오는데 실패');
@@ -49,6 +58,8 @@ export const getProjectListByGroup = (setProjectDatas, id, navigate) => {
             .get(`/api/project/find_by_group?group_id=${id}`)
             .then((projectResponse) => {
               setProjectDatas(() => projectResponse.data);
+              setStartDate(deadlineDate);
+              setGroupAuthority(groupAuthority);
             })
             .catch((error) => {
               console.log('프로젝트 리스트 받아오는데 실패');

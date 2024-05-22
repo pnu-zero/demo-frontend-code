@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import ReactModal from 'react-modal';
 import ReactDatePicker from 'react-datepicker';
+import { useParams } from 'react-router-dom';
 import { ko } from 'date-fns/locale/ko';
 import ExampleCustomInput from '../molecules/ExampleCustomInput';
+import { editGroup } from '../../api/group';
 
 /* overlay는 모달 창 바깥 부분을 처리하는 부분이고,
 content는 모달 창부분이라고 생각하면 쉬울 것이다 */
@@ -32,8 +33,15 @@ const customModalStyles = {
   },
 };
 
-function ClassPermissionModal({ modalOpen, setModalOpen }) {
-  const [startDate, setStartDate] = useState(new Date());
+function ClassPermissionModal({
+  modalOpen,
+  setModalOpen,
+  startDate,
+  setStartDate,
+  groupAuthority,
+  setGroupAuthority,
+}) {
+  const { id } = useParams();
 
   const handleColor = (time) =>
     time.getHours() > 12 ? 'text-success' : 'text-error';
@@ -73,8 +81,11 @@ function ClassPermissionModal({ modalOpen, setModalOpen }) {
                 name="permission"
                 id="public"
                 value="public"
-                checked
                 className="mr-1"
+                onChange={() => {
+                  setGroupAuthority('Public');
+                }}
+                checked={groupAuthority === 'Public'}
               />
               <label htmlFor="public">PUBLIC</label>
             </div>
@@ -85,6 +96,10 @@ function ClassPermissionModal({ modalOpen, setModalOpen }) {
                 id="private"
                 value="private"
                 className="mr-1"
+                onChange={() => {
+                  setGroupAuthority('Private');
+                }}
+                checked={groupAuthority === 'Private'}
               />
               <label htmlFor="private">PRIVATE</label>
             </div>
@@ -97,6 +112,7 @@ function ClassPermissionModal({ modalOpen, setModalOpen }) {
             onClick={() => {
               setModalOpen(false);
               // api 통신
+              editGroup(id, startDate.toISOString(), groupAuthority);
             }}
           >
             저장

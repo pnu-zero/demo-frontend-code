@@ -1,16 +1,24 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ServerFileUpload from '../components/organisms/ServerFileUpload';
 import ClientFileUpload from '../components/organisms/ClientFileUpload';
 import handleSaveProject from '../api/project';
+import { getMyGroupConfig } from '../api/group';
 
 function Main() {
+  const [canSave, setCanSave] = useState(true);
   const titleRef = useRef();
   const descRef = useRef();
   const urlRef = useRef();
+  const navigate = useNavigate();
   const [files, setFiles] = useState({
     staticFile: '',
     dynamicFile: '',
   });
+
+  useEffect(() => {
+    getMyGroupConfig(navigate, setCanSave);
+  }, []);
 
   return (
     <div className="flex flex-col items-center mx-auto mt-24 min-w-[800px]">
@@ -88,8 +96,13 @@ function Main() {
         type="button"
         className="text-white font-bold w-[110px] py-1 rounded-2xl mt-12 bg-bjsBlue"
         onClick={() => {
+          if (canSave === false) {
+            alert('마감시간이 지났습니다.');
+            return;
+          }
           if (urlRef.current.value === '') {
             alert('url은 빈칸일 수 없습니다.');
+            return;
           }
           if (titleRef.current.value === '' || descRef.current.value === '') {
             alert('제목과 설명은 빈칸일 수 없습니다.');

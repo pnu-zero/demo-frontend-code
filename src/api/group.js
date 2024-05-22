@@ -41,6 +41,35 @@ const getGroupList = (setGrouplist) => {
     });
 };
 
+export const getMyGroupConfig = (navigate, setCanSave) => {
+  instance
+    .get('/api/group/find_by_user')
+    .then((response) => {
+      const { data } = response;
+      const currentDate = new Date();
+      const deadlineDate = new Date(data[0].deadline);
+      const groupAuthority = data[0].authority;
+      const { id } = data[0];
+
+      if (currentDate <= deadlineDate) {
+        console.log('현재 시간은 마감 시간 이전입니다.');
+        return;
+      }
+
+      if (currentDate > deadlineDate && groupAuthority === 'Private') {
+        setCanSave(false);
+        return;
+      }
+
+      if (currentDate > deadlineDate && groupAuthority === 'Public') {
+        navigate(`/group/${id}`);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 export const getMyGroupList = (setGrouplist) => {
   instance
     .get('/api/group/find_by_user')
@@ -82,4 +111,12 @@ export const getMyGroupList = (setGrouplist) => {
     });
 };
 
+export const editGroup = (groupId, deadline, authority) => {
+  console.log(deadline);
+  instance.put(`/api/group`, {
+    groupId,
+    deadline,
+    authority,
+  });
+};
 export default getGroupList;

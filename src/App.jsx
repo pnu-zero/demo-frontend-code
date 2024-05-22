@@ -1,5 +1,6 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import './App.css';
+import ReactModal from 'react-modal';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NonFoundPage from './pages/NonFoundPage';
@@ -8,6 +9,9 @@ import UserEditPage from './pages/UserEditPage';
 import CommonLayout from './components/layout/CommonLayout';
 import Main from './pages/Main';
 import ClassPage from './pages/ClassPage';
+
+// 애플리케이션의 루트 요소를 설정합니다.
+ReactModal.setAppElement('#root');
 
 function App() {
   return (
