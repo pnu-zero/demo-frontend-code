@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import ServerFileUpload from '../components/organisms/ServerFileUpload';
 import ClientFileUpload from '../components/organisms/ClientFileUpload';
@@ -6,6 +7,11 @@ import handleSaveProject from '../api/project';
 import { getMyGroupConfig } from '../api/group';
 
 function Main() {
+  const notify = () =>
+    toast.info('제출 마감 되었습니다', {
+      theme: 'colored',
+    });
+
   const [canSave, setCanSave] = useState(true);
   const titleRef = useRef();
   const descRef = useRef();
@@ -98,6 +104,7 @@ function Main() {
         onClick={() => {
           if (canSave === false) {
             alert('마감시간이 지났습니다.');
+            notify();
             return;
           }
           if (urlRef.current.value === '') {

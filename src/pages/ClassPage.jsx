@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProjectCard from '../components/molecules/ProjectCard';
@@ -7,6 +8,10 @@ import ClassPermissionModal from '../components/modals/ClassPermissionModal';
 import { getProjectListByGroup } from '../api/project';
 
 function ClassPage() {
+  const notify = () =>
+    toast.error('제출 마감 시간 이전입니다', {
+      theme: 'colored',
+    });
   const [modalOpen, setModalOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -21,6 +26,7 @@ function ClassPage() {
       navigate,
       setStartDate,
       setGroupAuthority,
+      notify,
     );
   }, []);
 

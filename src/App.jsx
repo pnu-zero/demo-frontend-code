@@ -9,6 +9,7 @@ import UserEditPage from './pages/UserEditPage';
 import CommonLayout from './components/layout/CommonLayout';
 import Main from './pages/Main';
 import ClassPage from './pages/ClassPage';
+import Toast from './components/molecules/Toast';
 
 // 애플리케이션의 루트 요소를 설정합니다.
 ReactModal.setAppElement('#root');
@@ -29,6 +30,10 @@ function App() {
         {/* 단독 레이아웃 */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<RegisterPage />} />
+        <Route
+          path="/toast"
+          element={<Toast message="마감 시간 이전입니다" />}
+        />
       </Routes>
     </BrowserRouter>
   );
