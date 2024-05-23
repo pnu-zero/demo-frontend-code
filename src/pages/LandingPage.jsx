@@ -36,18 +36,8 @@ function LandingPage() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link page-scroll" href="/">
-                  FEATURES
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link page-scroll" href="/">
-                  DETAILS
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link page-scroll" href="/">
-                  PRICING
+                <a className="nav-link page-scroll" href="/main">
+                  MAIN
                 </a>
               </li>
             </ul>

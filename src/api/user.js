@@ -93,6 +93,7 @@ export const isLogin = (navigate) => {
     })
     .catch(() => {
       console.log('로그인 상태가 아닙니다.');
+      navigate('/login');
     });
 };
 

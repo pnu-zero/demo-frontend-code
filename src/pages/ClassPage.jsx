@@ -54,19 +54,21 @@ function ClassPage() {
           </div>
         </div>
 
-        <div className="ml-16">
-          <div className="mb-2">
-            <button
-              type="button"
-              className="block text-center text-white font-bold text-lg w-[150px] px-2 py-1 rounded-2xl  bg-bjsBlue"
-              onClick={() => {
-                setModalOpen(true);
-              }}
-            >
-              과제 설정
-            </button>
+        {localStorage.getItem('userRole') === 'Admin' && (
+          <div className="ml-16">
+            <div className="mb-2">
+              <button
+                type="button"
+                className="block text-center text-white font-bold text-lg w-[150px] px-2 py-1 rounded-2xl  bg-bjsBlue"
+                onClick={() => {
+                  setModalOpen(true);
+                }}
+              >
+                과제 설정
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className=" ml-24 mt-16">
         <div className="relative">

@@ -61,7 +61,9 @@ export const logout = (navigate) => {
   instance
     .post('/api/user/logout')
     .then(() => {
-      navigate('/landing');
+      navigate('/');
+      localStorage.setItem('name', '');
+      localStorage.setItem('userRole', '');
       window.location.reload();
     })
     .catch((error) => {

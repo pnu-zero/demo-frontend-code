@@ -17,6 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         {/* 공통 레이아웃 */}
         <Route path="/" element={<CommonLayout />}>
           <Route path="user-edit" element={<UserEditPage />} />
@@ -28,7 +29,6 @@ function App() {
         {/* 단독 레이아웃 */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<RegisterPage />} />
-        <Route path="/landing" element={<LandingPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -9,7 +9,7 @@ function Header() {
         <button
           type="button"
           onClick={() => {
-            navigate('/landing');
+            navigate('/');
           }}
         >
           <div className="px-8 mr-2 rounded-xl bg-bjsLightSky inline-block">
