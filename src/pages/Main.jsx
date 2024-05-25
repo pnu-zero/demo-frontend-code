@@ -26,9 +26,9 @@ function Main() {
   });
   const [files, setFiles] = useState({
     staticFile: null,
-    staticFileName: '',
+    staticFileName: null,
     dynamicFile: null,
-    dynamicFileName: '',
+    dynamicFileName: null,
   });
   const [isFirst, setIsFirst] = useState(false);
   const [isDuplicatedUrl, setIsDuplicatedUrl] = useState(true);

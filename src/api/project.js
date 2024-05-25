@@ -48,7 +48,8 @@ const getMyProject = (setProjectForm, setFiles, setIsFirst) => {
       }));
     })
     .catch(() => {
-      alert('프로젝트를 가져올 수 없습니다.');
+      alert('로그인을 확인해주세요');
+      console.log('프로젝트 불러오기 실패');
     });
 };
 
