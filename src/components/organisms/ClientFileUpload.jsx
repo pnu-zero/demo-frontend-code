@@ -1,22 +1,37 @@
 import React, { useRef, useState } from 'react';
 import { AiFillFile } from 'react-icons/ai';
 
-function ClientFileUpload({ setFiles }) {
+function ClientFileUpload({ files, setFiles }) {
   const clientFileRef = useRef();
-  const [isFileUploaded, setIsFileUploaded] = useState(false);
-  const [file, setFile] = useState();
+  const clientFileModificationRef = useRef();
+  console.log(files.staticFileName);
+  const [isFileUploaded, setIsFileUploaded] = useState(
+    files.staticFileName != null,
+  );
 
   const saveFile2 = () => {
     const curFile = clientFileRef.current.files[0];
     if (curFile) {
       // 파일 보내기 성공하면 상태 값 변경
       setIsFileUploaded(true);
-      setFile(curFile);
-      setFiles({
+      setFiles((prev) => ({
+        ...prev,
         staticFile: curFile,
-      });
-      // 파일 보내기
+        staticFileName: curFile.name,
+      }));
+    }
+  };
+
+  const modifyFile2 = () => {
+    const curFile = clientFileModificationRef.current.files[0];
+    if (curFile) {
+      // 파일 보내기 성공하면 상태 값 변경
       setIsFileUploaded(true);
+      setFiles((prev) => ({
+        ...prev,
+        staticFile: curFile,
+        staticFileName: curFile.name,
+      }));
     }
   };
 
@@ -34,23 +49,26 @@ function ClientFileUpload({ setFiles }) {
                 <div>
                   <AiFillFile size="40px" color="black" />
                 </div>
-                <button
-                  className="block bg-bjsBlue text-white font-bold text-md mt-1 w-[64px] rounded-2xl"
-                  type="button"
-                  onClick={() => {
-                    setIsFileUploaded(false);
-                    // 파일 삭제 api 요청
-                    setFiles((prev) => ({
-                      ...prev,
-                      staticFile: '',
-                    }));
-                  }}
-                >
-                  삭제
-                </button>
+                <div className="block bg-bjsBlue text-white font-bold text-md mt-1 w-[64px] rounded-2xl">
+                  <div>
+                    <label htmlFor="clientFileModification" className="m-0">
+                      <span>수정</span>
+                    </label>
+                    <input
+                      id="clientFileModification"
+                      className="hidden"
+                      type="file"
+                      accept=".zip,.tar"
+                      ref={clientFileModificationRef}
+                      onChange={modifyFile2}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="flex items-center w-[240px] h-[84px] font-bold text-center overflow-y-auto">
-                <span className="text-md text-black">{file.name}</span>
+                <span className="text-md text-black">
+                  {files.staticFileName}
+                </span>
               </div>
             </div>
           ) : (

@@ -1,9 +1,13 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import ServerFileUpload from '../components/organisms/ServerFileUpload';
 import ClientFileUpload from '../components/organisms/ClientFileUpload';
-import handleSaveProject from '../api/project';
+import getMyProject, {
+  handleCheckDuplicatedUrl,
+  handleModifyProject,
+  handleSaveProject,
+} from '../api/project';
 import { getMyGroupConfig } from '../api/group';
 
 function Main() {
@@ -12,18 +16,26 @@ function Main() {
       theme: 'colored',
     });
 
-  const [canSave, setCanSave] = useState(true);
-  const titleRef = useRef();
-  const descRef = useRef();
-  const urlRef = useRef();
   const navigate = useNavigate();
-  const [files, setFiles] = useState({
-    staticFile: '',
-    dynamicFile: '',
+
+  const [canSave, setCanSave] = useState(true);
+  const [projectForm, setProjectForm] = useState({
+    title: '',
+    desc: '',
+    url: '',
   });
+  const [files, setFiles] = useState({
+    staticFile: null,
+    staticFileName: '',
+    dynamicFile: null,
+    dynamicFileName: '',
+  });
+  const [isFirst, setIsFirst] = useState(false);
+  const [isDuplicatedUrl, setIsDuplicatedUrl] = useState(true);
 
   useEffect(() => {
     getMyGroupConfig(navigate, setCanSave);
+    getMyProject(setProjectForm, setFiles, setIsFirst);
   }, []);
 
   return (
@@ -39,11 +51,19 @@ function Main() {
                 type="text"
                 className="w-[290px] h-[36px] border-[1.1px] border-solid border-black px-2 rounded-xl"
                 placeholder="제목"
-                ref={titleRef}
+                onChange={(e) => {
+                  setProjectForm((prev) => ({
+                    ...prev,
+                    title: e.target.value,
+                  }));
+                }}
+                value={projectForm.title}
               />
             </div>
 
-            <div className="flex justify-center items-center w-[342px]">
+            <div
+              className={`flex justify-center items-center ${!isFirst ? 'w-[450px]' : 'w-[342px]'}`}
+            >
               <div className="mr-3 leading-9 text-black font-bold text-lg">
                 URL
               </div>
@@ -51,7 +71,12 @@ function Main() {
                 type="text"
                 className="w-[200px] h-[36px] border-[1.1px] border-solid border-black px-2 rounded-xl"
                 placeholder="url"
-                ref={urlRef}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setProjectForm((prev) => ({ ...prev, url: e.target.value }));
+                }}
+                value={projectForm.url}
+                disabled={!isFirst}
               />
               <input
                 type="text"
@@ -59,6 +84,21 @@ function Main() {
                 value=".pnu.app"
                 disabled
               />
+              {isFirst || (
+                <button
+                  type="button"
+                  className="text-white font-bold w-[110px] py-1 rounded-2xl bg-bjsBlue"
+                  disabled={!isDuplicatedUrl}
+                  onClick={() => {
+                    handleCheckDuplicatedUrl(
+                      projectForm.url,
+                      setIsDuplicatedUrl,
+                    );
+                  }}
+                >
+                  중복 체크
+                </button>
+              )}
             </div>
           </div>
 
@@ -70,7 +110,10 @@ function Main() {
               rows="4"
               cols="34"
               className="rounded-xl border-[1.1px] border-solid border-black p-2"
-              ref={descRef}
+              onChange={(e) => {
+                setProjectForm((prev) => ({ ...prev, desc: e.target.value }));
+              }}
+              value={projectForm.desc}
             />
           </div>
         </div>
@@ -82,7 +125,7 @@ function Main() {
               <br />
               (HTML,CSS,JS)
             </div>
-            <ClientFileUpload setFiles={setFiles} />
+            <ClientFileUpload files={files} setFiles={setFiles} />
           </div>
 
           <div className="flex flex-col justify-center items-center ml-24 font-bold text-center text-black">
@@ -91,53 +134,99 @@ function Main() {
               <br />
               (NODE.JS)
             </div>
-            <ServerFileUpload setFiles={setFiles} />
+            <ServerFileUpload files={files} setFiles={setFiles} />
           </div>
         </div>
       </div>
       <span className="font-bold text-red-500 text-3xl mt-12">
         6.29:18:00 까지 수정 가능합니다
       </span>
-      <button
-        type="button"
-        className="text-white font-bold w-[110px] py-1 rounded-2xl mt-12 bg-bjsBlue"
-        onClick={() => {
-          if (canSave === false) {
-            alert('마감시간이 지났습니다.');
-            notify();
-            return;
-          }
-          if (urlRef.current.value === '') {
-            alert('url은 빈칸일 수 없습니다.');
-            return;
-          }
-          if (titleRef.current.value === '' || descRef.current.value === '') {
-            alert('제목과 설명은 빈칸일 수 없습니다.');
-            return;
-          }
-          if (files.staticFile === '') {
-            alert('프론트 파일을 업로드해주세요.');
-            return;
-          }
-          const projectForm = {
-            title: titleRef.current.value,
-            desc: descRef.current.value,
-            sub_domain: urlRef.current.value,
-          };
-          const formdata = new FormData();
-          formdata.append(
-            'projectDto',
-            new Blob([JSON.stringify(projectForm)], {
-              type: 'application/json',
-            }),
-          );
-          formdata.append('staticFile', files.staticFile);
-          formdata.append('dynamicFile', files.dynamicFile);
-          handleSaveProject(formdata);
-        }}
-      >
-        저장
-      </button>
+      {isFirst === true ? (
+        <button
+          type="button"
+          className="text-white font-bold w-[110px] py-1 rounded-2xl mt-12 bg-bjsBlue"
+          disabled={!canSave}
+          onClick={() => {
+            const { title, url, desc } = projectForm;
+            console.log(projectForm);
+            if (isDuplicatedUrl === true) {
+              alert('Sub Domain 중복체크를 해주세요');
+              return;
+            }
+            if (canSave === false) {
+              alert('마감시간이 지났습니다.');
+              notify();
+              return;
+            }
+            if (url === '') {
+              alert('url은 빈칸일 수 없습니다.');
+              return;
+            }
+            if (title === '' || desc === '') {
+              alert('제목과 설명은 빈칸일 수 없습니다.');
+              return;
+            }
+            if (files.staticFile === '') {
+              alert('프론트 파일을 업로드해주세요.');
+              return;
+            }
+            const projectFormToServer = {
+              title,
+              desc,
+              sub_domain: url,
+            };
+            console.log(projectFormToServer);
+            const formdata = new FormData();
+            formdata.append(
+              'projectDto',
+              new Blob([JSON.stringify(projectFormToServer)], {
+                type: 'application/json',
+              }),
+            );
+            formdata.append('staticFile', files.staticFile);
+            formdata.append('dynamicFile', files.dynamicFile);
+            handleSaveProject(formdata);
+          }}
+        >
+          저장
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="text-white font-bold w-[110px] py-1 rounded-2xl mt-12 bg-bjsBlue"
+          disabled={!canSave}
+          onClick={() => {
+            const { title, desc } = projectForm;
+            console.log(projectForm);
+            if (canSave === false) {
+              alert('마감시간이 지났습니다.');
+              notify();
+              return;
+            }
+            if (title === '' || desc === '') {
+              alert('제목과 설명은 빈칸일 수 없습니다.');
+              return;
+            }
+            const projectFormToServer = {
+              title,
+              desc,
+            };
+            console.log(projectFormToServer);
+            const formdata = new FormData();
+            formdata.append(
+              'projectDto',
+              new Blob([JSON.stringify(projectFormToServer)], {
+                type: 'application/json',
+              }),
+            );
+            formdata.append('staticFile', files.staticFile);
+            formdata.append('dynamicFile', files.dynamicFile);
+            handleModifyProject(formdata);
+          }}
+        >
+          수정
+        </button>
+      )}
     </div>
   );
 }

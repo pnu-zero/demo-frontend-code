@@ -1,6 +1,6 @@
 import instance from './instance';
 
-const handleSaveProject = (formdata) => {
+export const handleSaveProject = (formdata) => {
   instance
     .post('/api/project', formdata, {
       headers: {
@@ -15,11 +15,41 @@ const handleSaveProject = (formdata) => {
     });
 };
 
-export const getMyProject = () => {
+export const handleModifyProject = (formdata) => {
   instance
-    .get('/api/project/find_by_user')
-    .then(() => {})
-    .catch(() => {});
+    .put('/api/project', formdata, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Content-Type을 반드시 이렇게 하여야 한다.
+      },
+    })
+    .then(() => {
+      alert('프로젝트 수정에 성공하였습니다.');
+    })
+    .catch(() => {
+      alert('프로젝트 수정에 실패하였습니다');
+    });
+};
+
+const getMyProject = (setProjectForm, setFiles, setIsFirst) => {
+  instance
+    .get('/api/project/own')
+    .then((response) => {
+      setIsFirst(false);
+      setProjectForm(() => ({
+        title: response.data.title,
+        desc: response.data.desc,
+        url: response.data.sub_domain,
+      }));
+      setFiles(() => ({
+        staticFile: null,
+        staticFileName: response.data.static_file_name,
+        dynamicFile: null,
+        dynamicFileName: response.data.dynamic_file_name,
+      }));
+    })
+    .catch(() => {
+      alert('프로젝트를 가져올 수 없습니다.');
+    });
 };
 
 export const getProjectListByGroup = (
@@ -78,4 +108,15 @@ export const getProjectListByGroup = (
     });
 };
 
-export default handleSaveProject;
+export const handleCheckDuplicatedUrl = (subDomain) => {
+  instance
+    .get(`/api/project/validate_domain?domain=${subDomain}`)
+    .then(() => {
+      alert('url 중복체크에 성공하셨습니다.');
+    })
+    .catch(() => {
+      alert('이미 존재하는 url입니다.');
+    });
+};
+
+export default getMyProject;

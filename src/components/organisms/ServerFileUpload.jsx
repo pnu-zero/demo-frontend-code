@@ -1,23 +1,37 @@
 import React, { useRef, useState } from 'react';
 import { AiFillFile } from 'react-icons/ai';
 
-function ServerFileUpload({ setFiles }) {
+function ServerFileUpload({ files, setFiles }) {
   const serverFileRef = useRef();
-  const [isFileUploaded, setIsFileUploaded] = useState(false);
-  const [file, setFile] = useState();
+  const serverFileModificationRef = useRef();
+  const [isFileUploaded, setIsFileUploaded] = useState(
+    files.dynamicFileName != null,
+  );
 
   const saveFile = () => {
     const curFile = serverFileRef.current.files[0];
     if (curFile) {
       // 파일 보내기 성공하면 상태 값 변경
       setIsFileUploaded(true);
-      setFile(curFile);
-      // 파일 보내기
+      // 파일 저장
       setFiles((prev) => ({
         ...prev,
         dynamicFile: curFile,
+        dynamicFileName: curFile.name,
       }));
+    }
+  };
+
+  const modifyFile = () => {
+    const curFile = serverFileModificationRef.current.files[0];
+    if (curFile) {
+      // 파일 보내기 성공하면 상태 값 변경
       setIsFileUploaded(true);
+      setFiles((prev) => ({
+        ...prev,
+        dynamicFile: curFile,
+        dynamicFileName: curFile.name,
+      }));
     }
   };
 
@@ -35,23 +49,26 @@ function ServerFileUpload({ setFiles }) {
                 <div>
                   <AiFillFile size="40px" color="black" />
                 </div>
-                <button
-                  className="block bg-bjsBlue text-white font-bold text-md mt-1 w-[64px] rounded-2xl"
-                  type="button"
-                  onClick={() => {
-                    setIsFileUploaded(false);
-                    // 파일 삭제 api 요청
-                    setFiles((prev) => ({
-                      ...prev,
-                      dynamicFile: '',
-                    }));
-                  }}
-                >
-                  삭제
-                </button>
+                <div className="block bg-bjsBlue text-white font-bold text-md mt-1 w-[64px] rounded-2xl">
+                  <div>
+                    <label htmlFor="clientFileModification" className="m-0">
+                      <span>수정</span>
+                    </label>
+                    <input
+                      id="clientFileModification"
+                      className="hidden"
+                      type="file"
+                      accept=".zip,.tar"
+                      ref={serverFileModificationRef}
+                      onChange={modifyFile}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="flex items-center w-[240px] h-[84px] font-bold text-center overflow-y-auto">
-                <span className="text-md text-black">{file.name}</span>
+                <span className="text-md text-black">
+                  {files.dynamicFileName}
+                </span>
               </div>
             </div>
           ) : (
