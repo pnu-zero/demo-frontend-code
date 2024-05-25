@@ -34,7 +34,10 @@ const getMyProject = (setProjectForm, setFiles, setIsFirst) => {
   instance
     .get('/api/project/own')
     .then((response) => {
-      setIsFirst(false);
+      console.log(response.data);
+      if (response.data !== undefined) {
+        setIsFirst(false);
+      }
       setProjectForm(() => ({
         title: response.data.title,
         desc: response.data.desc,

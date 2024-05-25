@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiFillFile } from 'react-icons/ai';
 
 function ClientFileUpload({ files, setFiles }) {
@@ -8,6 +8,10 @@ function ClientFileUpload({ files, setFiles }) {
   const [isFileUploaded, setIsFileUploaded] = useState(
     files.staticFileName != null,
   );
+
+  useEffect(() => {
+    setIsFileUploaded(files.staticFileName != null);
+  }, [files.staticFileName]);
 
   const saveFile2 = () => {
     const curFile = clientFileRef.current.files[0];

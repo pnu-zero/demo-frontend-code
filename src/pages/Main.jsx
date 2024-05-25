@@ -30,7 +30,7 @@ function Main() {
     dynamicFile: null,
     dynamicFileName: null,
   });
-  const [isFirst, setIsFirst] = useState(false);
+  const [isFirst, setIsFirst] = useState(true);
   const [isDuplicatedUrl, setIsDuplicatedUrl] = useState(true);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ function Main() {
                   setProjectForm((prev) => ({ ...prev, url: e.target.value }));
                 }}
                 value={projectForm.url}
-                disabled={!isFirst}
+                disabled={!isFirst || !isDuplicatedUrl}
               />
               <input
                 type="text"
@@ -87,7 +87,7 @@ function Main() {
               {isFirst && (
                 <button
                   type="button"
-                  className="text-white font-bold w-[110px] py-1 rounded-2xl bg-bjsBlue"
+                  className={`text-white font-bold w-[110px] py-1 rounded-2xl ${isDuplicatedUrl ? 'bg-bjsBlue' : 'bg-bjsLightSky'}`}
                   disabled={!isDuplicatedUrl}
                   onClick={() => {
                     handleCheckDuplicatedUrl(
@@ -166,7 +166,8 @@ function Main() {
               alert('제목과 설명은 빈칸일 수 없습니다.');
               return;
             }
-            if (files.staticFile === '') {
+            console.log(files.staticFile);
+            if (files.staticFile === null) {
               alert('프론트 파일을 업로드해주세요.');
               return;
             }

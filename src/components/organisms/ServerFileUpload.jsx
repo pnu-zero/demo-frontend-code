@@ -1,12 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { AiFillFile } from 'react-icons/ai';
 
 function ServerFileUpload({ files, setFiles }) {
   const serverFileRef = useRef();
   const serverFileModificationRef = useRef();
   const [isFileUploaded, setIsFileUploaded] = useState(
-    files.dynamicFileName != null,
+    files.dynamicFileName !== null,
   );
+
+  useEffect(() => {
+    setIsFileUploaded(files.staticFileName !== null);
+  }, [files.dynamicFileName]);
 
   const saveFile = () => {
     const curFile = serverFileRef.current.files[0];
