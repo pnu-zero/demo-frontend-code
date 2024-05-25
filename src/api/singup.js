@@ -10,9 +10,7 @@ const signup = (email, studentId, name, password, groupId, navigate) => {
     })
     .then(() => {
       alert('회원가입 성공');
-      setTimeout(() => {
-        navigate('/main');
-      }, 3000);
+      navigate('/');
     })
     .catch((error) => {
       // if (error.response) {

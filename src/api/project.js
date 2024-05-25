@@ -108,14 +108,19 @@ export const getProjectListByGroup = (
     });
 };
 
-export const handleCheckDuplicatedUrl = (subDomain) => {
+export const handleCheckDuplicatedUrl = (subDomain, setIsDuplicatedUrl) => {
   instance
     .get(`/api/project/validate_domain?domain=${subDomain}`)
-    .then(() => {
-      alert('url 중복체크에 성공하셨습니다.');
+    .then((response) => {
+      if (response.data === true) {
+        alert('url 중복체크에 성공하셨습니다.');
+        setIsDuplicatedUrl(false);
+      } else {
+        alert('이미 존재하는 url입니다.');
+      }
     })
-    .catch(() => {
-      alert('이미 존재하는 url입니다.');
+    .catch((error) => {
+      console.log(error);
     });
 };
 

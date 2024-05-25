@@ -62,7 +62,7 @@ function Main() {
             </div>
 
             <div
-              className={`flex justify-center items-center ${!isFirst ? 'w-[450px]' : 'w-[342px]'}`}
+              className={`flex justify-center items-center ${isFirst ? 'w-[450px]' : 'w-[342px]'}`}
             >
               <div className="mr-3 leading-9 text-black font-bold text-lg">
                 URL
@@ -84,7 +84,7 @@ function Main() {
                 value=".pnu.app"
                 disabled
               />
-              {isFirst || (
+              {isFirst && (
                 <button
                   type="button"
                   className="text-white font-bold w-[110px] py-1 rounded-2xl bg-bjsBlue"
