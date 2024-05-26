@@ -31,17 +31,17 @@ function Main() {
     dynamicFileName: null,
   });
   const [isFirst, setIsFirst] = useState(true);
-  const [isDuplicatedUrl, setIsDuplicatedUrl] = useState(true);
+  const [isDuplicatedUrl, setIsDuplicatedUrl] = useState(false);
 
   useEffect(() => {
     getMyGroupConfig(navigate, setCanSave);
-    getMyProject(setProjectForm, setFiles, setIsFirst);
+    getMyProject(setProjectForm, setFiles, setIsFirst, setIsDuplicatedUrl);
   }, []);
 
   return (
     <div className="flex flex-col items-center mx-auto mt-24 min-w-[800px]">
-      <div className="flex flex-col justify-center items-start w-[786px]">
-        <div className="flex">
+      <div className="flex flex-col justify-center items-start w-[800px]">
+        <div className="flex w-full justify-between">
           <div className="pr-8">
             <div className="flex justify-center items-center w-[342px] mb-6">
               <div className="mr-3 leading-9 text-black font-bold text-lg">
@@ -61,9 +61,7 @@ function Main() {
               />
             </div>
 
-            <div
-              className={`flex justify-center items-center ${isFirst ? 'w-[450px]' : 'w-[342px]'}`}
-            >
+            <div className="flex justify-center items-center relative w-[342px]">
               <div className="mr-3 leading-9 text-black font-bold text-lg">
                 URL
               </div>
@@ -76,7 +74,7 @@ function Main() {
                   setProjectForm((prev) => ({ ...prev, url: e.target.value }));
                 }}
                 value={projectForm.url}
-                disabled={!isFirst || !isDuplicatedUrl}
+                disabled={!isDuplicatedUrl}
               />
               <input
                 type="text"
@@ -84,10 +82,10 @@ function Main() {
                 value=".pnu.app"
                 disabled
               />
-              {isFirst && (
+              {isDuplicatedUrl && (
                 <button
                   type="button"
-                  className={`text-white font-bold w-[110px] py-1 rounded-2xl ${isDuplicatedUrl ? 'bg-bjsBlue' : 'bg-bjsLightSky'}`}
+                  className={`absolute right-[-100px] text-white font-bold w-[110px] py-1 rounded-2xl ${isDuplicatedUrl ? 'bg-bjsBlue' : 'bg-bjsLightSky'}`}
                   disabled={!isDuplicatedUrl}
                   onClick={() => {
                     handleCheckDuplicatedUrl(
@@ -118,7 +116,7 @@ function Main() {
           </div>
         </div>
 
-        <div className="flex mt-12">
+        <div className="flex mt-12 w-full justify-between">
           <div className="flex flex-col justify-center items-center font-bold text-center text-black">
             <div className="mb-2">
               프론트 파일

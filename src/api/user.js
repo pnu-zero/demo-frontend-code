@@ -89,7 +89,7 @@ export const isLogin = (navigate) => {
   instance
     .get('/api/user')
     .then(() => {
-      navigate('/main');
+      // navigate('/main');
     })
     .catch(() => {
       console.log('로그인 상태가 아닙니다.');

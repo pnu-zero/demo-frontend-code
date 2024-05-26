@@ -13,12 +13,14 @@ function Header() {
           }}
         >
           <div className="px-8 mr-2 rounded-xl bg-bjsLightSky inline-block">
-            <span className="font-bold text-white text-3xl">PNU cloud</span>
+            <span className="font-bold text-white text-3xl">
+              인터넷과 웹기초
+            </span>
           </div>
         </button>
         <div className="ml-2">
           <span className="font-bold text-white text-xl">
-            당신의 프로젝트를 관리하세요
+            텀 프로젝트 배포 시스템
           </span>
         </div>
       </div>

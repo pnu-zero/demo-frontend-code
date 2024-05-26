@@ -1,17 +1,32 @@
 import instance from './instance';
 
-export const handleSaveProject = (formdata) => {
+export const handleSaveProject = (formdata, subDomain, setIsDuplicatedUrl) => {
   instance
-    .post('/api/project', formdata, {
-      headers: {
-        'Content-Type': 'multipart/form-data', // Content-Type을 반드시 이렇게 하여야 한다.
-      },
+    .get(`/api/project/validate_domain?domain=${subDomain}`)
+    .then((response) => {
+      if (response.data === true) {
+        alert('url 중복체크에 성공하셨습니다.');
+        setIsDuplicatedUrl(false);
+        instance
+          .post('/api/project', formdata, {
+            headers: {
+              'Content-Type': 'multipart/form-data', // Content-Type을 반드시 이렇게 하여야 한다.
+            },
+          })
+          .then(() => {
+            alert('프로젝트 저장에 성공하였습니다.');
+            window.location.reload();
+          })
+          .catch(() => {
+            alert('프로젝트 저장에 실패하였습니다');
+          });
+      } else {
+        setIsDuplicatedUrl(true);
+        alert('url을 다시 확인해주세요');
+      }
     })
-    .then(() => {
-      alert('프로젝트 저장에 성공하였습니다.');
-    })
-    .catch(() => {
-      alert('프로젝트 저장에 실패하였습니다');
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -24,20 +39,30 @@ export const handleModifyProject = (formdata) => {
     })
     .then(() => {
       alert('프로젝트 수정에 성공하였습니다.');
+      window.location.reload();
     })
     .catch(() => {
       alert('프로젝트 수정에 실패하였습니다');
     });
 };
 
-const getMyProject = (setProjectForm, setFiles, setIsFirst) => {
+const getMyProject = (
+  setProjectForm,
+  setFiles,
+  setIsFirst,
+  setIsDuplicatedUrl,
+) => {
   instance
     .get('/api/project/own')
     .then((response) => {
       console.log(response.data);
-      if (response.data !== undefined) {
-        setIsFirst(false);
+      if (response.data === '') {
+        setIsFirst(true);
+        setIsDuplicatedUrl(true);
+        return;
       }
+      setIsDuplicatedUrl(false);
+      setIsFirst(false);
       setProjectForm(() => ({
         title: response.data.title,
         desc: response.data.desc,
@@ -78,7 +103,8 @@ export const getProjectListByGroup = (
         instance
           .get(`/api/project/find_by_group?id=${id}`)
           .then((projectResponse) => {
-            setProjectDatas(() => projectResponse.data);
+            if (projectResponse === '') setProjectDatas([]);
+            else setProjectDatas(() => projectResponse.data);
             setStartDate(deadlineDate);
             setGroupAuthority(groupAuthority);
           })
@@ -92,7 +118,68 @@ export const getProjectListByGroup = (
           instance
             .get(`/api/project/find_by_group?group_id=${id}`)
             .then((projectResponse) => {
-              setProjectDatas(() => projectResponse.data);
+              console.log(projectResponse);
+              if (projectResponse === '') setProjectDatas([]);
+              else setProjectDatas(() => projectResponse.data);
+              setStartDate(deadlineDate);
+              setGroupAuthority(groupAuthority);
+            })
+            .catch((error) => {
+              console.log('프로젝트 리스트 받아오는데 실패');
+              alert(error.response.data.message);
+            });
+        } else {
+          navigate('/main');
+          console.log('현재 시간은 마감 시간 이전입니다.');
+          notify();
+        }
+      }
+    })
+    .catch(() => {
+      console.log('그룹 마감시간 받아오는데 실패');
+    });
+};
+
+export const getProjectListByGroupBySearch = (
+  setProjectDatas,
+  id,
+  navigate,
+  setStartDate,
+  setGroupAuthority,
+  notify,
+  searchText,
+) => {
+  instance
+    .get('/api/group/find_by_user')
+    .then((groupResponse) => {
+      const { data } = groupResponse;
+      const currentDate = new Date();
+      const deadlineDate = new Date(data[0].deadline);
+      const groupAuthority = data[0].authority;
+      const role = localStorage.getItem('userRole');
+
+      if (role === 'Admin') {
+        console.log('교수님!!');
+        instance
+          .get(`/api/project/find_by_group?id=${id}`)
+          .then((projectResponse) => {
+            if (projectResponse === '') setProjectDatas([]);
+            else setProjectDatas(() => projectResponse.data);
+            setStartDate(deadlineDate);
+            setGroupAuthority(groupAuthority);
+          })
+          .catch(() => {
+            console.log('프로젝트 리스트 받아오는데 실패');
+          });
+      } else if (role === 'User') {
+        // 현재 시간이 마감 시간 이후인지 확인
+        if (currentDate > deadlineDate) {
+          console.log('현재 시간은 마감 시간 이후입니다.');
+          instance
+            .get(`/api/project/search?query=${searchText}`)
+            .then((projectResponse) => {
+              if (projectResponse.data === '') setProjectDatas([]);
+              else setProjectDatas(() => projectResponse.data);
               setStartDate(deadlineDate);
               setGroupAuthority(groupAuthority);
             })
@@ -120,6 +207,7 @@ export const handleCheckDuplicatedUrl = (subDomain, setIsDuplicatedUrl) => {
         alert('url 중복체크에 성공하셨습니다.');
         setIsDuplicatedUrl(false);
       } else {
+        setIsDuplicatedUrl(true);
         alert('이미 존재하는 url입니다.');
       }
     })

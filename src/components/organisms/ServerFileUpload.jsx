@@ -5,11 +5,11 @@ function ServerFileUpload({ files, setFiles }) {
   const serverFileRef = useRef();
   const serverFileModificationRef = useRef();
   const [isFileUploaded, setIsFileUploaded] = useState(
-    files.dynamicFileName !== null,
+    files.dynamicFileName != null,
   );
 
   useEffect(() => {
-    setIsFileUploaded(files.staticFileName !== null);
+    setIsFileUploaded(files.staticFileName != null);
   }, [files.dynamicFileName]);
 
   const saveFile = () => {

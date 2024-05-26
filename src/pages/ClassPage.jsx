@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ProjectCard from '../components/molecules/ProjectCard';
 import 'react-datepicker/dist/react-datepicker.css';
 import ClassPermissionModal from '../components/modals/ClassPermissionModal';
-import { getProjectListByGroup } from '../api/project';
+import {
+  getProjectListByGroup,
+  getProjectListByGroupBySearch,
+} from '../api/project';
 
 function ClassPage() {
   const notify = () =>
-    toast.error('제출 마감 시간 이전입니다', {
+    toast.info('제출 마감 시간 이전입니다', {
       theme: 'colored',
     });
   const [modalOpen, setModalOpen] = useState(false);
@@ -19,16 +22,38 @@ function ClassPage() {
   const [startDate, setStartDate] = useState(new Date());
   const [groupAuthority, setGroupAuthority] = useState('false');
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchRef = useRef();
+
+  const handleSearchButton = () => {
+    const searchText = searchRef.current.value;
+    setSearchParams({ q: searchText });
+  };
+
   useEffect(() => {
-    getProjectListByGroup(
-      setProjectDatas,
-      id,
-      navigate,
-      setStartDate,
-      setGroupAuthority,
-      notify,
-    );
-  }, []);
+    console.log(searchParams.get('q'));
+    if (searchParams.get('q') === null) {
+      console.log(searchParams.get('q') === '');
+      getProjectListByGroup(
+        setProjectDatas,
+        id,
+        navigate,
+        setStartDate,
+        setGroupAuthority,
+        notify,
+      );
+    } else {
+      getProjectListByGroupBySearch(
+        setProjectDatas,
+        id,
+        navigate,
+        setStartDate,
+        setGroupAuthority,
+        notify,
+        searchParams.get('q'),
+      );
+    }
+  }, [searchParams.get('q')]);
 
   return (
     <div className="text-black">
@@ -83,11 +108,13 @@ function ClassPage() {
               type="text"
               className="w-[290px] h-[36px] leading-[36px] border-[2.5px] border-solid border-bjsBlue pr-2 pl-8 rounded-xl focus-visible:outline-0"
               placeholder="학번, 이름, 프로젝트 명"
+              ref={searchRef}
             />
             <button
               className="absolute bg-bjsBlue text-lg p-1 pl-3 text-white right-0 rounded-r-xl "
               type="button"
               aria-label="검색"
+              onClick={handleSearchButton}
             >
               <AiOutlineSearch size="28px" className="mr-2" />
             </button>
